@@ -1,0 +1,415 @@
+$primary: #0077FF;
+$dark: #000;
+.contactButton {
+  position: absolute;
+  bottom: 2.5rem;
+  right: 2.5rem;
+  padding: 1rem;
+  background: #7f56d9;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgb(16 24 40 / 5%);
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background: #6941c6;
+  }
+}
+.header {
+  width: 100%;
+  height: 80px;
+  padding: 0 2rem;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background:white;
+}
+
+.header .dashboard{
+  background: #7f56d9;
+  padding: 10px 18px 10px 18px;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.headBar{
+  display: flex;
+  padding: 20px;
+  justify-content: flex-start;
+}
+.headBar li{
+  padding: 0 16px;
+  cursor: pointer;
+  list-style-type:none;
+}
+.headBar a{
+  color: #667085;
+  text-decoration: none;
+}
+
+.mainContent{
+  position: absolute;
+  height: 700px;
+  width: 800px;
+  left: 430px;
+  margin-top: 50px;
+  
+}
+.mainContent > h1 {
+  text-align: center;
+}
+.mainContent > p {
+  text-align: center;
+  color: gray;
+  padding-inline: 150px;
+}
+.mainContent > img {
+  margin-top: 50px;
+  object-fit: cover;
+}
+.modal{
+  position:absolute;
+  margin: 10px;
+  height: 500px;
+  width: 700px;
+  padding: 5px;
+  padding-top: 40px;
+  left: 460px;
+  top: 150px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background: white;
+  border-radius: 8px;
+  z-index: 1001;
+  body {
+    height: 100vh;
+    display: grid;
+    font-family: Roboto;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+.mainModal{
+  position:absolute;
+  margin: 10px;
+  height: 500px;
+  width: 700px;
+  padding: 5px;
+  padding-top: 40px;
+  left: 460px;
+  top: 150px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background: white;
+  border-radius: 8px;
+  z-index: 1001;
+  body {
+    height: 100vh;
+    display: grid;
+    font-family: Roboto;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+.imagen {
+  position: absolute;
+  right:-560px ;
+  bottom: -150px
+}
+
+.startButton{
+  position: absolute;
+  right: 345px;
+  bottom: 150px;
+  white-space: nowrap;
+  padding: 15px 25px;
+  margin: 0 10px;
+  text-decoration: none; /* Remove underlines for links */
+  color: white; /* Set text color */
+  background-color: #4baf8e; /* Set background color */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.tweetButtonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; // Adjust the margin as needed
+}
+.intensityButtonContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px; // Adjust the margin as needed
+}
+
+.tweetButton {
+  white-space: nowrap;
+  padding: 20px 25px;
+  text-decoration: none;
+  color: white;
+  background-color: #4baf8e;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.optionsContainer {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px; // Adjust the margin as needed
+}
+
+.optionButton {
+  white-space: nowrap;
+  padding: 15px 25px;
+  margin: 0 10px;
+  text-decoration: none;
+  color: white;
+  background-color: #4baf8e;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.mainText{
+  text-Align: center;
+}
+.modalContent {
+  /* Center the content within the modal */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modalContent > img{
+  width: 10%;
+  height: 10%;
+}
+.modalText{
+  text-align: center;
+  padding-inline: 30px;
+}
+.modal .buttonContainer{
+  margin-top: 20px;
+  text-align: center;
+}
+
+
+.closeButton {
+  /* Add styles for each button */
+  white-space: nowrap;
+  padding: 15px 25px;
+  position: absolute;
+  top: 440px;
+  text-decoration: none; /* Remove underlines for links */
+  color: white; /* Set text color */
+  background-color: #4baf8e; /* Set background color */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer; /* Show pointer cursor on hover */
+}
+.modal .closeIntensityButton {
+  /* Add styles for each button */
+  white-space: nowrap;
+  padding: 15px 25px;
+  position: absolute;
+  top: 490px;
+  text-decoration: none; /* Remove underlines for links */
+  color: white; /* Set text color */
+  background-color: #4baf8e; /* Set background color */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer; /* Show pointer cursor on hover */
+}
+.modal .emailButton {
+  /* Add styles for each button */
+  white-space: nowrap;
+  padding: 15px 25px;
+  margin: 0 10px;
+  text-decoration: none; /* Remove underlines for links */
+  color: white; /* Set text color */
+  background-color: #7f56d9; /* Set background color */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer; /* Show pointer cursor on hover */
+}
+.overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.inp {
+  position: relative;
+  margin: auto;
+  width: 100%;
+  max-width: 280px;
+  border-radius: 3px;
+  overflow: hidden;
+
+  .label {
+    position: absolute;
+    top: -60px;
+    left: 12px;
+    font-size: 16px;
+    color: rgba($dark, 0.5);
+    font-weight: 500;
+    transform-origin: 0 0;
+    transform: translate3d(0, 0, 0);
+    transition: all 0.2s ease;
+    pointer-events: none;
+  }
+
+  .focus-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba($dark, 0.05);
+    z-index: 1000;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  textarea {
+    width: 100%;
+    border: 0;
+    font-family: inherit;
+    padding: 16px 12px;
+    min-height: 56px; // Set a minimum height
+    font-size: 16px;
+    font-weight: 400;
+    background: rgba($dark, 0.02);
+    box-shadow: inset 0 -1px 0 rgba($dark, 0.3);
+    color: $dark;
+    transition: all 0.15s ease;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    
+    &:hover {
+      background: rgba($dark, 0.04);
+      box-shadow: inset 0 -1px 0 rgba($dark, 0.5);
+    }
+
+    &:not(:placeholder-shown) + .label {
+      color: rgba($dark, 0.5);
+      transform: translate3d(0, -12px, 0) scale(0.75);
+    }
+
+    &:focus {
+      background: rgba($dark, 0.05);
+      outline: none;
+      box-shadow: inset 0 -2px 0 $primary;
+
+      + .label {
+        color: $primary;
+        transform: translate3d(0, -12px, 0) scale(0.75);
+
+        + .focus-bg {
+          transform: scaleX(1);
+          transition: all 0.1s ease;
+        }
+      }
+    }
+  }
+}
+
+.inpu {
+  position: relative;
+  margin-left: 10px;
+  margin-right: 10px;
+  width: 20%;
+  max-width: 280px;
+  border-radius: 3px;
+  overflow: hidden;
+
+  .label {
+    position: absolute;
+    top: 20px;
+    left: 12px;
+    font-size: 16px;
+    color: rgba($dark, .5);
+    font-weight: 500;
+    transform-origin: 0 0;
+    transform: translate3d(0, 0, 0);
+    transition: all 0.2s ease;
+    pointer-events: none;
+  }
+
+  .focus-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba($dark, 0.05);
+    z-index: 1000;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+ 
+  input {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    margin-bottom: 15px;
+    margin: 10px;
+    border: 0;
+    font-family: inherit;
+    padding: 16px 12px 0 12px;
+    height: 56px;
+    font-size: 16px;
+    font-weight: 400;
+    background: rgba($dark, 0.02);
+    box-shadow: inset 0 -1px 0 rgba($dark, 0.3);
+    color: $dark;
+    transition: all 0.15s ease;
+
+    &:hover {
+      background: rgba($dark, 0.04);
+      box-shadow: inset 0 -1px 0 rgba($dark, 0.5);
+    }
+
+    &:not(:placeholder-shown) + .label {
+      color: rgba($dark, 0.5);
+      transform: translate3d(0, -12px, 0) scale(0.75);
+    }
+
+    &:focus {
+      background: rgba($dark, 0.05);
+      outline: none;
+      box-shadow: inset 0 -2px 0 $primary;
+
+      + .label {
+        color: $primary;
+        transform: translate3d(0, -12px, 0) scale(0.75);
+
+        + .focus-bg {
+          transform: scaleX(1);
+          transition: all 0.1s ease;
+        }
+      }
+    }
+  }
+}
+.intForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+.inputContainer {
+  display: flex;
+  flex-direction: row; /* Change to row to have inputs side by side */
+  justify-content: center; /* Center the inputs horizontally */
+
+}
+
