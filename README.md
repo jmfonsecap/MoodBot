@@ -1,5 +1,3 @@
-## Empezando
-
 ### 1. Clonar e Instalar
 
 Este proyecto está construido con Next.js y TypeScript. Para comenzar a trabajar en el proyecto, primero clona el repositorio en tu máquina local e instala las dependencias.
