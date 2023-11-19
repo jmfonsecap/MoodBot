@@ -291,18 +291,21 @@ const IssuesPage = () => {
           Which of these words do you identify with the most?
         </p>
         <div className={styles.modal.buttonContainer}>
-          {[emotion1, emotion2, emotion3].map((emotion, index) => (
-            <button
-              key={index}
-              className={styles.optionButton}
-              onClick={() => {
-                setEmotion(index + 1);
-                setModal4(true);
-              }}
-            >
-              {emotion}
-            </button>
-          ))}
+          {[emotion1, emotion2, emotion3].map(
+            (emotion, index) =>
+              emotion && (
+                <button
+                  key={index}
+                  className={styles.optionButton}
+                  onClick={() => {
+                    setEmotion(index + 1);
+                    setModal4(true);
+                  }}
+                >
+                  {emotion}
+                </button>
+              ),
+          )}
         </div>
 
         <button className={styles.closeButton} onClick={closeModal}>

@@ -33,12 +33,17 @@ def predict_sentiment_api():
         data = request.get_json()
         new_tweet_data = data.get('tweet')
         polarity, tokenization, dictionary = pln(new_tweet_data)
-        polarity = float(polarity[0]) if isinstance(polarity, np.ndarray) else float(polarity)
-        frequent_word = max(dictionary, key=dictionary.get)
-        sorted_dictionary = sorted(dictionary.items(), key=lambda x: x[1], reverse=True)
-        tweet = new_tweet_data
+        polarity = round(float(polarity[0]) if isinstance(polarity, np.ndarray) else float(polarity),2)
         if not dictionary:
             raise ValueError("Dictionary is empty")
+        frequent={}
+        for element in dictionary.keys():
+            if element in dataEmotion:
+                frequent[element]=dictionary[element]
+        frequent_word = max(frequent, key=frequent.get)
+        sorted_dictionary = sorted(frequent.items(), key=lambda x: x[1], reverse=True)
+        tweet = new_tweet_data
+        
         if float(polarity)>0.5:
             pol="positive"
         else:
@@ -66,11 +71,23 @@ def deepen_emotion():
 @app.route('/get_emotions', methods = ['GET'])
 def get_emotions():
     
-    response_data = {
+    
+    if len(sorted_dictionary)==1:
+        response_data = {
+        "emotion1": sorted_dictionary[0][0],
+        }
+    elif len(sorted_dictionary)==2:
+        response_data = {
+        "emotion1": sorted_dictionary[0][0],
+        "emotion2": sorted_dictionary[1][0]
+        }
+    
+    else:
+        response_data = {
         "emotion1": sorted_dictionary[0][0],
         "emotion2": sorted_dictionary[1][0],
         "emotion3": sorted_dictionary[2][0]
-    }
+        }
     return jsonify(response_data)
 @app.route('/explore_emotion', methods = ['POST'])
 def explore_emotion():
@@ -346,68 +363,75 @@ niveles = {
     "Nivel 2": 2,
     "Nivel 3": 3
 }
-
+dataEmotion=['joy', 'breath', 'encourag', 'joy', 'happi', 
+    'happi', 'celebratori', 'full', 'fulfil', 'smile', 'smile','grate', 'appreci', 'appreci', 
+    'reliabl', 'confid', 'hope', 'hope', 'gratitud', 'inspir', 'inspir', 'motiv', 'motiv', 'optim', 'optimist', 
+    'satisfi', 'satisfact','love', 'love', 'generos', 'gener','friendship', 
+    'friendli', 'empathi', 'empathet','anguish', 'anguish', 'depress', 'disillusion', 'disillus', 'pain', 'pain', 
+    'lament', 'lament', 'sad', 'sad','discourag', 'discourag', 'desper', 'desper', 'scare', 'disast', 'disastr', 'fail', 
+    'failur', 'frustrat', 'frustrat', 'fear','bitter', 'bitter', 'disdain', 'disdain', 'doubt', 'doubt', 'enviou', 
+    'envi', 'insecur', 'insecur', 'hate', 'hatr', 'resent', 'resent','angri']
 nodos = {
     'Tweet': agregar_nodo('Tweet'),
 
-    'palabras_positivas': agregar_nodo('palabras_positivas', palabras=['joy', 'breath', 'encourag', 'joy', 'happi',
+    'positive_words': agregar_nodo('positive_words', palabras=['joy', 'breath', 'encourag', 'joy', 'happi',
     'happi', 'celebratori', 'full', 'fulfil', 'smile', 'smile','grate', 'appreci', 'appreci',
     'reliabl', 'confid', 'hope', 'hope', 'gratitud', 'inspir', 'inspir', 'motiv', 'motiv', 'optim', 'optimist',
     'satisfi', 'satisfact','love', 'love', 'generos', 'gener','friendship',
     'friendli', 'empathi', 'empathet' ], nivel=niveles['Nivel 1']),
 
-    'felicidad_positividad': agregar_nodo('felicidad_positividad', palabras=['joy', 'breath', 'encourag', 'joy', 'happi',
+    'optimism': agregar_nodo('optimism', palabras=['joy', 'breath', 'encourag', 'joy', 'happi',
     'happi', 'celebratori', 'full', 'fulfil', 'smile', 'smile','grate', 'appreci', 'appreci',
     'reliabl', 'confid', 'hope', 'hope', 'gratitud', 'inspir', 'inspir', 'motiv', 'motiv', 'optim', 'optimist',
     'satisfi', 'satisfact'], nivel=niveles['Nivel 2']),
 
-    'conexion_relaciones': agregar_nodo('conexion_relaciones', palabras=['love', 'love', 'generos', 'gener','friendship',
+    'relationship_emotion': agregar_nodo('relationship_emotion', palabras=['love', 'love', 'generos', 'gener','friendship',
     'friendli', 'empathi', 'empathet'], nivel=niveles['Nivel 2']),
 
-    'felicidad_alegria': agregar_nodo('felicidad_alegria', palabras=['joy', 'breath', 'encourag', 'joy', 'happi',
+    'happiness': agregar_nodo('happiness', palabras=['joy', 'breath', 'encourag', 'joy', 'happi',
     'happi', 'celebratori', 'full', 'fulfil', 'smile', 'smile'], nivel=niveles['Nivel 3']),
 
-    'positividad_motivacion': agregar_nodo('positividad_motivacion', palabras=['grate', 'appreci', 'appreci',
+    'motivation': agregar_nodo('motivation', palabras=['grate', 'appreci', 'appreci',
     'reliabl', 'confid', 'hope', 'hope', 'gratitud', 'inspir', 'inspir', 'motiv', 'motiv', 'optim', 'optimist',
     'satisfi', 'satisfact'], nivel=niveles['Nivel 3']),
 
-    'amor_cariño': agregar_nodo('amor_cariño', palabras=['love', 'love', 'generos', 'gener'], nivel=niveles['Nivel 3']),
+    'love': agregar_nodo('love', palabras=['love', 'love', 'generos', 'gener'], nivel=niveles['Nivel 3']),
 
-    'amistad_empatia': agregar_nodo('amistad_empatia', palabras=['friendship', 'friendli', 'empathi', 'empathet'], nivel=niveles['Nivel 3']),
+    'empathy': agregar_nodo('empathy', palabras=['friendship', 'friendli', 'empathi', 'empathet'], nivel=niveles['Nivel 3']),
 
 
 
-    'palabras_negativas': agregar_nodo('palabras_negativas', palabras=['anguish', 'anguish', 'depress', 'disillusion', 'disillus', 'pain', 'pain',
+    'negative_words': agregar_nodo('negative_words', palabras=['anguish', 'anguish', 'depress', 'disillusion', 'disillus', 'pain', 'pain',
     'lament', 'lament', 'sad', 'sad','discourag', 'discourag', 'desper', 'desper', 'scare', 'disast', 'disastr', 'fail',
     'failur', 'frustrat', 'frustrat', 'fear','bitter', 'bitter', 'disdain', 'disdain', 'doubt', 'doubt', 'enviou',
     'envi', 'insecur', 'insecur', 'hate', 'hatr', 'resent', 'resent'], nivel=niveles['Nivel 1']),
 
-    'tristeza_desanimo': agregar_nodo('tristeza_desanimo', palabras=['anguish', 'anguish', 'depress', 'disillusion', 'disillus', 'pain', 'pain',
+    'discouragement': agregar_nodo('discouragement', palabras=['anguish', 'anguish', 'depress', 'disillusion', 'disillus', 'pain', 'pain',
     'lament', 'lament', 'sad', 'sad','discourag', 'discourag', 'desper', 'desper' ], nivel=niveles['Nivel 2']),
 
-    'negatividad_dificultades': agregar_nodo('negatividad_dificultades', palabras=['scare', 'disast', 'disastr', 'fail',
+    'difficulties': agregar_nodo('difficulties', palabras=['scare', 'disast', 'disastr', 'fail',
     'failur', 'frustrat', 'frustrat', 'fear','bitter', 'bitter', 'disdain', 'disdain', 'doubt', 'doubt', 'enviou',
     'envi', 'insecur', 'insecur', 'hate', 'hatr', 'resent', 'resent'], nivel=niveles['Nivel 2']),
 
-    'tristeza': agregar_nodo('tristeza', palabras=['anguish', 'anguish', 'depress', 'disillusion', 'disillus', 'pain', 'pain',
+    'sadness': agregar_nodo('sadness', palabras=['anguish', 'anguish', 'depress', 'disillusion', 'disillus', 'pain', 'pain',
     'lament', 'lament', 'sad', 'sad'], nivel=niveles['Nivel 3']),
 
-    'desanimo_desesperación': agregar_nodo('desanimo_desesperación', palabras=['discourag', 'discourag', 'desper', 'desper'], nivel=niveles['Nivel 3']),
+    'despair': agregar_nodo('despair', palabras=['discourag', 'discourag', 'desper', 'desper'], nivel=niveles['Nivel 3']),
 
-    'negatividad': agregar_nodo('negatividad', palabras=['bitter', 'bitter', 'disdain', 'disdain', 'doubt', 'doubt', 'enviou',
+    'negativity': agregar_nodo('negativity', palabras=['bitter', 'bitter', 'disdain', 'disdain', 'doubt', 'doubt', 'enviou',
     'envi', 'insecur', 'insecur', 'hate', 'hatr', 'resent', 'resent'], nivel=niveles['Nivel 3']),
 
-    'dificultades_frustración': agregar_nodo('dificultades_frustración', palabras=['scare', 'disast', 'disastr', 'fail',
+    'frustration': agregar_nodo('frustration', palabras=['scare', 'disast', 'disastr', 'fail',
     'failur', 'frustrat', 'frustrat', 'fear'], nivel=niveles['Nivel 3']),
 }
 
-conectar_nodos(nodos['Tweet'], [nodos['palabras_positivas'], nodos['palabras_negativas']])
-conectar_nodos(nodos['palabras_positivas'], [nodos['felicidad_positividad'], nodos['conexion_relaciones']])
-conectar_nodos(nodos['palabras_negativas'], [nodos['tristeza_desanimo'], nodos['negatividad_dificultades']])
-conectar_nodos(nodos['felicidad_positividad'], [nodos['felicidad_alegria'], nodos['positividad_motivacion']])
-conectar_nodos(nodos['conexion_relaciones'], [nodos['amor_cariño'], nodos['amistad_empatia']])
-conectar_nodos(nodos['tristeza_desanimo'], [nodos['tristeza'], nodos['desanimo_desesperación']])
-conectar_nodos(nodos['negatividad_dificultades'], [nodos['negatividad'], nodos['dificultades_frustración']])
+conectar_nodos(nodos['Tweet'], [nodos['positive_words'], nodos['negative_words']])
+conectar_nodos(nodos['positive_words'], [nodos['optimism'], nodos['relationship_emotion']])
+conectar_nodos(nodos['negative_words'], [nodos['discouragement'], nodos['difficulties']])
+conectar_nodos(nodos['optimism'], [nodos['happiness'], nodos['motivation']])
+conectar_nodos(nodos['relationship_emotion'], [nodos['love'], nodos['empathy']])
+conectar_nodos(nodos['discouragement'], [nodos['sadness'], nodos['despair']])
+conectar_nodos(nodos['difficulties'], [nodos['negativity'], nodos['frustration']])
 
 #Retorna:
 #emocion_objetivo: emoción del nivel al que pertenece
@@ -427,76 +451,76 @@ def deeper(objetivo):
 #Para que el usuario utilice esta funcionalidad, solo debe decir que tan específica quiere que se arroje su emoción
 #ingresa numero del 1 al 3 y este input-1 es la posición en path que hay que mostrar
 
-felicidad_alegria=['joy', 'breath', 'encourag', 'joy', 'happi',
+happiness=['joy', 'breath', 'encourag', 'joy', 'happi',
     'celebratori', 'full', 'fulfil', 'smile']
 
-positividad_motivacion=['grate', 'appreci',
+motivation=['grate', 'appreci',
     'reliabl', 'confid', 'hope', 'gratitud', 'inspir', 'inspir', 'motiv', 'optim', 'optimist',
     'satisfi', 'satisfact']
 
-amor_cariño=['love', 'generos', 'gener']
+love=['love', 'generos', 'gener']
 
-amistad_empatia=['friendship', 'friendli', 'empathi', 'empathet']
+empathy=['friendship', 'friendli', 'empathi', 'empathet']
 
-tristeza=['anguish', 'depress', 'disillusion', 'disillus', 'pain',
+sadness=['anguish', 'depress', 'disillusion', 'disillus', 'pain',
     'lament', 'sad']
 
-desanimo_desesperacion=['discourag', 'discourag', 'desper', 'desper']
+despair=['discourag', 'discourag', 'desper', 'desper']
 
-negatividad=['bitter', 'disdain','doubt', 'enviou',
+negativity=['bitter', 'disdain','doubt', 'enviou',
     'envi', 'insecur', 'hate', 'hatr', 'resent']
 
-dificultades_frustracion=['scare', 'disast', 'disastr', 'fail',
+frustration=['scare', 'disast', 'disastr', 'fail',
     'failur', 'frustrat','fear']
 
 #Crear base de conocimiento
 general = []
 
 #Creamos el hecho "sentimiento" el cual relaciona a la palabra con su sentimiento correspondiente
-for element in felicidad_alegria:
-  general.append("sentimiento("+element.lower()+", felicidad_alegria)")
-for element in positividad_motivacion:
-  general.append("sentimiento("+element.lower()+", positividad_motivacion)")
-for element in amor_cariño:
-  general.append("sentimiento("+element.lower()+", amor_cariño)")
-for element in amistad_empatia:
-  general.append("sentimiento("+element.lower()+", amistad_empatia)")
-for element in tristeza:
-  general.append("sentimiento("+element.lower()+", tristeza)")
-for element in desanimo_desesperacion:
-  general.append("sentimiento("+element.lower()+", desanimo_desesperacion)")
-for element in negatividad:
-  general.append("sentimiento("+element.lower()+", negatividad)")
-for element in dificultades_frustracion:
-  general.append("sentimiento("+element.lower()+", dificultades_frustracion)")
+for element in happiness:
+  general.append("sentimiento("+element.lower()+", happiness)")
+for element in motivation:
+  general.append("sentimiento("+element.lower()+", motivation)")
+for element in love:
+  general.append("sentimiento("+element.lower()+", love)")
+for element in empathy:
+  general.append("sentimiento("+element.lower()+", empathy)")
+for element in sadness:
+  general.append("sentimiento("+element.lower()+", sadness)")
+for element in despair:
+  general.append("sentimiento("+element.lower()+", despair)")
+for element in negativity:
+  general.append("sentimiento("+element.lower()+", negativity)")
+for element in frustration:
+  general.append("sentimiento("+element.lower()+", frustration)")
 
 #Creamos el hecho "pertenece" que establece la relación entre las emociones y su emoción general asociada. Tal cuál se hace en el árbol binario de la iteración #2
 pertenece = [
-      "pertenece(felicidad_alegria, felicidad_positividad)",
-       "pertenece(positividad_motivacion, felicidad_positividad)",
-       "pertenece(amor_cariño, conexion_relacion)",
-       "pertenece(amistad_empatia, conexion_relacion)",
-       "pertenece(tristeza, tristeza_desanimo)",
-       "pertenece(desanimo_desesperacion, tristeza_desanimo)",
-       "pertenece(negatividad, negatividad_dificultades)",
-       "pertenece(dificultades_frustracion, negatividad_dificultades)",
-       "pertenece(felicidad_positividad, palabras_positivas)",
-       "pertenece(conexion_relacion, palabras_positivas)",
-       "pertenece(tristeza_desanimo, palabras_negativas)",
-       "pertenece(negatividad_dificultades, palabras_negativas)",
+      "pertenece(happiness, optimism)",
+       "pertenece(motivation, optimism)",
+       "pertenece(love, relationship_emotion)",
+       "pertenece(empathy, relationship_emotion)",
+       "pertenece(sadness, discouragement)",
+       "pertenece(despair, discouragement)",
+       "pertenece(negativity, difficulties)",
+       "pertenece(frustration, difficulties)",
+       "pertenece(optimism, positive_words)",
+       "pertenece(relationship_emotion, positive_words)",
+       "pertenece(discouragement, negative_words)",
+       "pertenece(difficulties, negative_words)",
        ]
 
 #Creamos el hecho "recomendacion" que relaciona el nombre de la playlist con su emoción asociada
-recomendacion = ["recomendacion(playlist1, felicidad_alegria)",
-                 "recomendacion(playlist2, positividad_motivacion)",
-                 "recomendacion(playlist3, amor_cariño)",
-                 "recomendacion(playlist4, amistad_empatia)",
-                 "recomendacion(playlist5, tristeza)",
-                 "recomendacion(playlist6, desanimo_desesperacion)",
-                 "recomendacion(playlist7, negatividad)",
-                 "recomendacion(playlist8, dificultades_frustracion)",
-                 "recomendacion(playlist1, tristeza)",
-                 "recomendacion(playlist2, negatividad)",]
+recomendacion = ["recomendacion(playlist1, happiness)",
+                 "recomendacion(playlist2, motivation)",
+                 "recomendacion(playlist3, love)",
+                 "recomendacion(playlist4, empathy)",
+                 "recomendacion(playlist5, sadness)",
+                 "recomendacion(playlist6, despair)",
+                 "recomendacion(playlist7, negativity)",
+                 "recomendacion(playlist8, frustration)",
+                 "recomendacion(playlist1, sadness)",
+                 "recomendacion(playlist2, negativity)",]
 
 #Creamos el hecho "link" que relaciona el link de una playlist con su nombre correspondiente
 link = ["link(https://open.spotify.com/playlist/37i9dQZF1EVJSvZp5AOML2?si=505da5307df044b7, playlist1)",
